@@ -1,29 +1,268 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Vega-Lite Bar Chart</title>
+    <title>The Pacific Plate</title>
     <meta charset="utf-8" />
 
-    <script src="https://cdn.jsdelivr.net/npm/vega@5.21.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.2"></script>
-
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-array@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
+    <link rel="stylesheet"    href="https://fonts.googleapis.com/css?family=Montserrat">
     <style media="screen">
-      /* Add space between Vega-Embed links  */
-      .vega-actions a {
-        margin-right: 5px;
-      }
+
+
+.country{
+    fill: #b2df8a;
+    stroke: #ffff99t;
+}
+.other-plate{
+  fill: rgba(0,0,0,0.15);
+  stroke-width: 0;
+  stroke: transparent;
+}
+
+.subduction-line{
+  stroke-width: 3px;
+  stroke: #ff7f00;
+  fill: transparent;
+  stroke-linejoin: "round";
+
+}
+
+.bound{
+  fill: transparent;
+  stroke-width: 3px;
+  stroke: #fdbf6f;
+  stroke-linejoin: "round";
+}
+
+.ocean200{
+  fill: #efedf5;
+  stroke-width: 0px;
+}
+.ocean1000{
+  fill: #bcbddc;
+  stroke-width: 0px;
+}
+.ocean2000{
+  fill: #bcbddc ;
+  stroke-width: 0px;
+}
+.ocean3000{
+  fill: #4292c6 ;
+  stroke-width: 0px;
+}
+.ocean4000{
+  fill: #4292c6 ;
+  stroke-width: 0px;
+}
+.ocean5000{
+  fill: #4292c6;
+  stroke-width: 0px;
+}
+.ocean6000{
+  fill:#2171b5 ;
+  stroke-width: 0px;
+}
+.ocean7000{
+  fill:#08519c;
+  stroke-width: 0px;
+}
+.ocean8000{
+  fill: #08306b;
+  stroke-width: 0px;
+}
+.ocean9000{
+  fill: #08306b;
+  stroke-width: 0px;
+}
+.ocean10000{
+  fill: #08306b;
+  stroke-width: 0px;
+}
+
+.volcano{
+  fill: #e31a1c;
+}
+
+.active{
+  fill: transparent;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: left;			
+    max-width: 250px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: transparent;	
+    pointer-events: none;			
+    padding: 10px;
+    padding-left: 15px;
+    padding-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+#title-container {
+  color:white;
+}
+#title-container h1{
+  font-size: 32px;
+  font-family: 'Montserrat', serif;
+}
     </style>
   </head>
   <body>
-    <!-- Container for the visualization -->
-    <div id="vis"></div>
+    <div id="title-container">
+        <h1><small>the</small> Pacific <small>plate</small></h1>
+    </div>
+    <svg id="vis"></svg>
 
     <script>
-     var vlSpec = "vlspec.json";
+      //properties
+      var width = 1600;
+      var height = 1000;
+      var projRotation = [-200,0]
+      var projection = d3.geoAiry().rotate(projRotation).translate( [width / 2, height / 2]).scale(300); //.clipAngle(120).
+      var projPath = d3.geoPath().projection(projection);
 
-      // Embed the visualization in the container with id `vis`
-      vegaEmbed('#vis', vlSpec);
+      //variables
+      var svg = d3.select("#vis");
+      svg.attr("width", width).attr("height", height);
+      // tooltip
+      var div = d3.select("body").append("div")	
+          .attr("class", "tooltip")				
+          .style("opacity", 0);
+      //title
+      var titleDiv = d3.select("#title-container")
+        .style("position", "absolute")
+        .style("left", width / 2  - 100 + "px")
+        .style("top", height/2   - 80 +  "px")
+      //visualise
+      queue()
+        .defer(d3.csv, "./GVP_Volcano_List_Holocene.csv")
+        .defer(d3.json, "./world-110m.geojson")
+        .defer(d3.json, "./plates_no_pacific.geojson")
+        .defer(d3.json, "./plates_bound_subduction.geojson")
+        .defer(d3.json, "./PB2002_boundaries.json")
+        .defer(d3.json, "./ocean_200.geojson")
+        .defer(d3.json, "./ocean_1000.geojson")
+        .defer(d3.json, "./ocean_2000.geojson")
+        .defer(d3.json, "./ocean_3000.geojson")
+        .defer(d3.json, "./ocean_4000.geojson")
+      //  .defer(d3.json, "./ocean_5000.geojson")
+      //  .defer(d3.json, "./ocean_6000.geojson")
+       // .defer(d3.json, "./ocean_7000.geojson")
+       // .defer(d3.json, "./ocean_8000.geojson")
+       // .defer(d3.json, "./ocean_9000.geojson")
+        //.defer(d3.json, "./ocean_1000.geojson")
+        .await(ready);
+
+      function ready(error, 
+      volcanoData,
+      worldData, 
+      platesNoPacificData, 
+      boundSubductionData, 
+      boundData,
+      oceanData200,
+      oceanData1000,
+      oceanData2000,
+      oceanData3000,
+      oceanData4000
+  //    oceanData5000,
+   //   oceanData6000,
+    //  oceanData7000,
+    //  oceanData8000,
+     // oceanData9000,
+     // oceanData10000
+      )
+      {
+
+
+        //ocean
+        visualiseGeojson(oceanData200, "ocean200");
+        visualiseGeojson(oceanData1000, "ocean1000");
+        visualiseGeojson(oceanData2000, "ocean2000");
+        visualiseGeojson(oceanData3000, "ocean3000");
+       // visualiseGeojson(oceanData4000, "ocean4000");
+       // visualiseGeojson(oceanData5000, "ocean5000");
+       // visualiseGeojson(oceanData6000, "ocean6000");
+       // visualiseGeojson(oceanData7000, "ocean7000");
+        //visualiseGeojson(oceanData8000, "ocean8000");
+        //visualiseGeojson(oceanData9000, "ocean9000");
+       // visualiseGeojson(oceanData10000, "ocean10000");
+        
+        visualiseGeojson(worldData, "country");
+        visualiseGeojson(platesNoPacificData, "other-plate", 
+        function(d) {
+    	       // console.log("just had a mouseover", d3.select(d));
+              d3.select(this)
+      	      .classed("active", true)
+    	  }, 
+        function(d){
+            //  console.log("just had a mouseleave", d3.select(d));
+              d3.select(this)
+      	      .classed("active",  false)
+        });
+        visualiseGeojson(boundData, "bound")
+        visualiseGeojson(boundSubductionData, "subduction-line");
+        visualiseVolcano(volcanoData, "volcano", "Latitude", "Longitude");
+
+      }
+
+      function visualiseVolcano(data, svgClass, lat, long){
+        svg.selectAll("polygon")
+          .data(data)
+        .enter().append("polygon")
+          .attr("points", function(d){
+              var center = projection([
+               d[long], d[lat]
+             ]);
+             var x = center[0];
+             var y = center[1];
+             var length = 5;
+             var topPoint = [x, y - length];
+             var leftPoint = [x + length, y ];
+             var rightPoint = [x - length, y ];
+            var ret = topPoint.toString() + " " + rightPoint.toString() + " " + leftPoint.toString();
+            return ret;
+          }) 
+          .on("mouseover", function(d) {		
+            div.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+            div	
+                .html(
+                  "<b>" + d["Volcano Name"] + "</b><br/>" +
+                  "Country: " + d["Country"] + "<br/>" +
+                  "Primary volcano type: " + d["Primary Volcano Type"] + "<br/>" +
+                  "Last known eruption was "+ d["Last Known Eruption"] + " ago.<br/>" +
+                  "Activity evidence is <i> " + d["Activity Evidence"] + "</i><br/>" 
+                )
+                .style("left", (d3.event.pageX + 20) + "px")		
+                .style("top", (d3.event.pageY - 100) + "px");	
+            })					
+        .on("mouseout", function(d) {		
+            div.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+        })        
+        .attr("class", svgClass);
+      }
+
+      function visualiseGeojson(data, svgClass, onMouseOver, onMouseOut){
+        svg.append("g")
+        .selectAll("path")
+        .data(data.features)
+        .enter().append("path")
+        .attr("d", projPath)
+        .attr("class", svgClass)
+        .on("mouseover", onMouseOver)
+        .on("mouseout", onMouseOut);
+      }
     </script>
   </body>
 </html>
