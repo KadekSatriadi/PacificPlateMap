@@ -1,0 +1,103 @@
+
+
+.country{
+    fill: #dddda0;
+    stroke: #eee;
+}
+.other-plate{
+  fill: rgba(0,0,0,0.15);
+  stroke-width: 0;
+  stroke: transparent;
+  cursor: pointer;
+}
+
+.subduction-line{
+  stroke-width: 3px;
+  stroke: #ff7f00;
+  fill: transparent;
+  stroke-linejoin: "round";
+
+}
+
+.bound{
+  fill: transparent;
+  stroke-width: 3px;
+  stroke: #fdbf6f;
+  stroke-linejoin: "round";
+}
+
+.ocean200{
+  fill: #9dced6;
+  stroke-width: 0px;
+}
+.ocean1000{
+  fill: #8ebfd1;
+  stroke-width: 0px;
+}
+.ocean2000{
+  fill: #80b1cc ;
+  stroke-width: 0px;
+}
+.ocean3000{
+  fill: #73a2c6 ;
+  stroke-width: 0px;
+}
+.ocean4000{
+  fill: #6694c1 ;
+  stroke-width: 0px;
+}
+.ocean5000{
+  fill: #5a86bb;
+  stroke-width: 0px;
+}
+.ocean6000{
+  fill:#4e78b5 ;
+  stroke-width: 0px;
+}
+.ocean7000{
+  fill:#406aaf;
+  stroke-width: 0px;
+}
+.ocean8000{
+  fill: #325da9;
+  stroke-width: 0px;
+}
+.ocean9000{
+  fill: #204fa3;
+  stroke-width: 0px;
+}
+.ocean10000{
+  fill: #00429d;
+  stroke-width: 0px;
+}
+
+.volcano{
+  fill: #e31a1c;
+  cursor: pointer;
+}
+
+.active{
+  fill: transparent;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: left;			
+    max-width: 250px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: transparent;	
+    pointer-events: none;			
+    padding: 10px;
+    padding-left: 15px;
+    padding-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+#title-container {
+  color:white;
+}
+#title-container h1{
+  font-size: 32px;
+  font-family: 'Montserrat', serif;
+}
