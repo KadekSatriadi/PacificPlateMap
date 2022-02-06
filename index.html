@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>The Pacific Plate</title>
+    <title>The Pacific Plate | volcanoes and other tectonic plates.</title>
     <meta charset="utf-8" />
 
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -11,7 +11,9 @@
     <script src="https://cdn.jsdelivr.net/npm/d3-geo@3"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3-geo-projection@4"></script>
     <link rel="stylesheet"    href="https://fonts.googleapis.com/css?family=Montserrat">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/coffee.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
   </head>
   <body>
@@ -19,13 +21,21 @@
       <div id="title-container">
         <h1><small>the</small> Pacific <small>plate</small></h1>
     </div>
-    <svg id="vis"></svg>
+    <svg id="vis">
+      <line x1="300" y1="750" x2="350" y2="750" class="bound" />
+      <text x="360" y="755">Plate boundaries</text>
+      <line x1="550" y1="750" x2="600" y2="750" class="subduction-line" />
+      <text x="610" y="755">Subduction lines</text>
+      <polygon points="810,745 800,755 820,755" class="volcano"></polygon>
+      <text x="830" y="755">Volcanoes</text>
+
+    </svg>
     <div class="footer">
       <p>
         THIS IS A `WORK IN PROGRESS` MAP. <br/>
         Volcano data source: Global Volcanism Program, 2013. Volcanoes of the World, v. 4.10.5. Venzke, E (ed.). Smithsonian Institution. https://doi.org/10.5479/si.GVP.VOTW4-2013. <br/>
         Plates data source: Natural Earth (naturalearthdata.com).<br/>
-        Created with <heart>&hearts;</heart> by <a href="https://kadeksatriadi.com" target="_blank"> Kadek Satriadi</a>
+        Created with <span class="fas fa-heart"></span> + <span class="fas fa-mug-hot"></span> by <a href="https://kadeksatriadi.com" target="_blank"> Kadek A. Satriadi</a>
       </p>
     </div>
     </div>

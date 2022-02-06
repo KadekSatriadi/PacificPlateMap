@@ -1,8 +1,11 @@
+// Pacific Tectonic Plate and its surrounding.  
+// A map by Kadek Satriadi. 2022. 
+
  //properties
- var width = 1600;
- var height = 1000;
+ var width = 1300;
+ var height = 800;
  var projRotation = [-200,0]
- var projection = d3.geoAitoff().rotate(projRotation).translate( [width / 2, height / 2]).scale(250); //.clipAngle(120).
+ var projection = d3.geoAitoff().rotate(projRotation).translate( [width / 2, height / 2]).scale(200); //.clipAngle(120).
  var projPath = d3.geoPath().projection(projection);
 
  //variables
@@ -16,27 +19,27 @@
  var pacificCenter = projection([-8.7832,124.5085]);
  var titleDiv = d3.select("#title-container")
    .style("position", "absolute")
-   .style("left", width - pacificCenter[0] - 100 + "px")
-   .style("top", height * 0.5 - pacificCenter[1] + 100 +  "px")
+   .style("left", width - pacificCenter[0] - 180 + "px")
+   .style("top", height * 0.5 - pacificCenter[1] + 80 +  "px")
 
  //load data
  queue()
-   .defer(d3.csv, "./GVP_Volcano_List_Holocene.csv")
-   .defer(d3.json, "./world-110m.geojson")
-   .defer(d3.json, "./plates_no_pacific.geojson")
-   .defer(d3.json, "./plates_bound_subduction.geojson")
-   .defer(d3.json, "./PB2002_boundaries.json")
-   .defer(d3.json, "./ocean_200.geojson")
-   .defer(d3.json, "./ocean_1000.geojson")
-   .defer(d3.json, "./ocean_2000.geojson")
-   .defer(d3.json, "./ocean_3000.geojson")
-   .defer(d3.json, "./ocean_4000.geojson")
-   .defer(d3.json, "./ocean_5000.geojson")
-   //.defer(d3.json, "./ocean_6000.geojson")
-   //.defer(d3.json, "./ocean_7000.geojson")
-   //.defer(d3.json, "./ocean_8000.geojson")
-   //.defer(d3.json, "./ocean_9000.geojson")
-   //.defer(d3.json, "./ocean_10000.geojson")
+   .defer(d3.csv, "./data/GVP_Volcano_List_Holocene.csv")
+   .defer(d3.json, "./data/world-110m.geojson")
+   .defer(d3.json, "./data/plates_no_pacific.geojson")
+   .defer(d3.json, "./data/plates_bound_subduction.geojson")
+   .defer(d3.json, "./data/PB2002_boundaries.json")
+   .defer(d3.json, "./data/ocean_200.geojson")
+   .defer(d3.json, "./data/ocean_1000.geojson")
+   .defer(d3.json, "./data/ocean_2000.geojson")
+   //.defer(d3.json, "./data/ocean_3000.geojson") disabled to optimise the web page
+   //.defer(d3.json, "./data/ocean_4000.geojson")
+   //.defer(d3.json, "./data/ocean_5000.geojson")
+   //.defer(d3.json, "./data/ocean_6000.geojson")
+   //.defer(d3.json, "./data/ocean_7000.geojson")
+   //.defer(d3.json, "./data/ocean_8000.geojson")
+   //.defer(d3.json, "./data/ocean_9000.geojson")
+   //.defer(d3.json, "./data/ocean_10000.geojson")
    .await(ready);
 
  //visualise
@@ -49,9 +52,9 @@
  oceanData200,
  oceanData1000,
  oceanData2000,
- oceanData3000,
- oceanData4000,
- oceanData5000
+ //oceanData3000,
+ //oceanData4000,
+ //oceanData5000
  //oceanData6000,
  //oceanData7000,
  //oceanData8000,
@@ -62,12 +65,12 @@
 
 
    //ocean
-   visualiseGeojson(oceanData200, "ocean200");
-   visualiseGeojson(oceanData1000, "ocean1000");
-   visualiseGeojson(oceanData2000, "ocean2000");
-   visualiseGeojson(oceanData3000, "ocean3000");
-   visualiseGeojson(oceanData4000, "ocean4000");
-   visualiseGeojson(oceanData5000, "ocean5000");
+   visualiseGeojson(oceanData200, "ocean1000");
+   visualiseGeojson(oceanData1000, "ocean2000");
+   visualiseGeojson(oceanData2000, "ocean3000");
+   //visualiseGeojson(oceanData3000, "ocean3000");
+   //visualiseGeojson(oceanData4000, "ocean4000");
+   //visualiseGeojson(oceanData5000, "ocean5000");
    //visualiseGeojson(oceanData6000, "ocean6000");
    //visualiseGeojson(oceanData7000, "ocean7000");
    //visualiseGeojson(oceanData8000, "ocean8000");

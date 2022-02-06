@@ -1,5 +1,6 @@
 body{
   font-family: 'Montserrat', serif;
+  background: #eee;
 }
 .page{
   width: 100%;
@@ -18,7 +19,7 @@ body{
 
 .subduction-line{
   stroke-width: 3px;
-  stroke: #ff7f00;
+  stroke: #e6550d;
   fill: transparent;
   stroke-linejoin: "round";
 
@@ -26,8 +27,8 @@ body{
 
 .bound{
   fill: transparent;
-  stroke-width: 3px;
-  stroke: #fdbf6f;
+  stroke-width: 2px;
+  stroke: #fdae6b;
   stroke-linejoin: "round";
 }
 
@@ -107,6 +108,12 @@ div.tooltip {
 }
 
 .footer{
-  font-size: 12px;
+  font-size: 0.8em;
   color: #555;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  color:#555;
 }
