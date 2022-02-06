@@ -1,5 +1,10 @@
-
-
+body{
+  font-family: 'Montserrat', serif;
+}
+.page{
+  width: 100%;
+  text-align: center;
+}
 .country{
     fill: #dddda0;
     stroke: #eee;
@@ -99,5 +104,4 @@ div.tooltip {
 }
 #title-container h1{
   font-size: 32px;
-  font-family: 'Montserrat', serif;
 }
