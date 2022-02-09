@@ -5,7 +5,7 @@
  var width = 1300;
  var height = 800;
  var projRotation = [-200,0]
- var projection = d3.geoAitoff().rotate(projRotation).translate( [width / 2, height / 2]).scale(200); //.clipAngle(120).
+ var projection = d3.geoEqualEarth().rotate(projRotation).translate( [width / 2, height / 2]).scale(200); //.clipAngle(120).
  var projPath = d3.geoPath().projection(projection);
 
  //variables
@@ -15,12 +15,7 @@
  var div = d3.select("body").append("div")	
      .attr("class", "tooltip")				
      .style("opacity", 0);
- //title
- var pacificCenter = projection([-8.7832,124.5085]);
- var titleDiv = d3.select("#title-container")
-   .style("position", "absolute")
-   .style("left", width - pacificCenter[0] - 180 + "px")
-   .style("top", height * 0.5 - pacificCenter[1] + 80 +  "px")
+
 
  //load data
  queue()
@@ -82,13 +77,13 @@
    //all plates but pacific
    visualiseGeojson(platesNoPacificData, "other-plate", 
    function(d) {
-        // console.log("just had a mouseover", d3.select(d));
+       //console.log("just had a mouseover", d3.select(d));
        //console.log(d);
        //console.log(d.properties.PlateName);
-       d3.select(this)
-        .classed("active", true);
-       
-        div.transition()		
+      d3.select(this)
+        .classed("active", true);       
+      
+       div.transition()		
            .duration(200)		
            .style("opacity", .9);		
        div	
@@ -112,9 +107,22 @@
    visualiseGeojson(boundSubductionData, "subduction-line");
    //volcano
    visualiseVolcano(volcanoData, "volcano", "Latitude", "Longitude");
-
+    //update title position
+    updateTitlePosition();
  }
 
+ //update title position
+ function updateTitlePosition()
+ {
+  var center = projection([-95, 10]);
+  var left = center[0]; 
+  var top = center[1]; 
+  d3.select("#title-container")
+    .style("position", "absolute")
+    .style("left", left + "px")
+    .style("top",  top + "px");
+ 
+ }
 
  //add plates labels
  function addPlatesLabels(svg, platesNoPacificData){
@@ -139,7 +147,8 @@
 
  ///visualise volcano data
  function visualiseVolcano(data, svgClass, lat, long){
-   svg.selectAll("polygon")
+   svg.append("g")
+    .selectAll("polygon")
      .data(data)
    .enter().append("polygon")
      .attr("points", function(d){
