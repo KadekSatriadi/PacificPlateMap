@@ -3,7 +3,7 @@
 
  //properties
  var width = 1300;
- var height = 800;
+ var height = 750;
  var projRotation = [-200,0]
  var projection = d3.geoEqualEarth().rotate(projRotation).translate( [width / 2, height / 2]).scale(200); //.clipAngle(120).
  var projPath = d3.geoPath().projection(projection);
@@ -108,7 +108,7 @@
    //volcano
    visualiseVolcano(volcanoData, "volcano", "Latitude", "Longitude");
     //update title position
-    updateTitlePosition();
+    //updateTitlePosition();
  }
 
  //update title position
